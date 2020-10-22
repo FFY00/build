@@ -12,7 +12,7 @@ import tempfile
 from types import TracebackType
 from typing import Iterable, Optional, Tuple, Type
 
-from ._compat import add_metaclass
+from ._compat import abstractproperty, add_metaclass
 
 try:
     import pip
@@ -24,20 +24,10 @@ except ImportError:  # pragma: no cover
 class IsolatedEnv(object):
     """Abstract base of isolated build environments, as required by the build project."""
 
-    if sys.version_info[0] == 2:
-
-        @abc.abstractproperty
-        def executable(self):  # type: () -> str
-            """Return the executable of the isolated build environment."""
-            raise NotImplementedError
-
-    else:
-
-        @property
-        @abc.abstractmethod
-        def executable(self):  # type: () -> str
-            """Return the executable of the isolated build environment."""
-            raise NotImplementedError
+    @abstractproperty
+    def executable(self):  # type: () -> str
+        """Return the executable of the isolated build environment."""
+        raise NotImplementedError
 
     @abc.abstractmethod
     def install(self, requirements):  # type: (Iterable[str]) -> None
