@@ -1,5 +1,3 @@
-import abc
-import sys
 from typing import Callable, TypeVar
 
 _T = TypeVar('_T')
@@ -25,18 +23,4 @@ def add_metaclass(metaclass):  # type: (type) -> Callable[[_T], _T]
     return wrapper
 
 
-if sys.version_info[0] == 2:
-    abstractproperty = abc.abstractproperty
-else:
-    from typing import Any, cast
-
-    F = TypeVar('F', bound=Callable[..., Any])
-
-    def abstractproperty(func):  # type: (F) -> F
-        return cast(F, property(abc.abstractmethod(func)))
-
-
-__all__ = (
-    'abstractproperty',
-    'add_metaclass',
-)
+__all__ = ('add_metaclass',)
